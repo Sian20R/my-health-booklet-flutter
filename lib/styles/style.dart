@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-const kLogoTitleTextStyle = TextStyle(
-  color: Colors.black54,
+const kLoginButtonTextStyle = TextStyle(
+  color: Colors.green,
   fontFamily: 'Roboto Black',
-  fontSize: 22.0,
+  fontWeight: FontWeight.w500,
+  fontSize: 18.0,
+);
+
+const kRegisterButtonTextStyle = TextStyle(
+  color: Colors.red,
+  fontFamily: 'Roboto Black',
+  fontWeight: FontWeight.w500,
+  fontSize: 18.0,
 );

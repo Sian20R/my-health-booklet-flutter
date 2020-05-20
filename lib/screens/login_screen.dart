@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:myhealthbooklet/screens/registration_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../constants.dart';
+import '../screens/registration_screen.dart';
 import '../styles/style.dart';
 import '../utils/validation.dart';
 import '../widgets/filled_button_widget.dart';
@@ -14,7 +15,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _auth = FirebaseAuth.instance;
   bool showSpinner = false;
+  String email;
+  String password;
 
   List<GestureDetector> socialMediaLogins = [
     GestureDetector(
@@ -67,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextFormField(
-                    onChanged: (value) {},
+                    onChanged: (value) => email = value,
                     validator: emailValidator,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(color: Colors.black),
@@ -81,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
-                    onChanged: (value) {},
+                    onChanged: (value) => password = value,
                     validator: passwordValidator,
                     style: TextStyle(color: Colors.black),
                     obscureText: true,
@@ -101,9 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         filledColour: Colors.green,
                         buttonText: 'Login',
                         filledButtonStyle: kLoginButtonTextStyle,
-                        onPressed: () {
-                          _formKey.currentState.validate();
-                        },
+                        onPressed: loginAction,
                       ),
                       SizedBox(width: 15.0),
                       FillButtonWidget(
@@ -155,5 +157,29 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
     FocusScope.of(_scaffoldKey.currentContext).unfocus();
+  }
+
+  void loginAction() async {
+    setState(() => showSpinner = true);
+    if (_formKey.currentState.validate()) {
+      try {
+        final newUser = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+
+        if (newUser != null) {
+          Navigator.pushNamed(context, RouteConstant.home);
+        }
+      } catch (e) {
+        _scaffoldKey.currentState
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text('Error logging in'),
+              backgroundColor: Colors.red,
+            ),
+          );
+      }
+    }
+    setState(() => showSpinner = false);
   }
 }

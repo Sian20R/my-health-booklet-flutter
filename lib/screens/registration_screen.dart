@@ -104,30 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         filledColour: Colors.green,
                         buttonText: 'Register',
                         filledButtonStyle: kLoginButtonTextStyle,
-                        onPressed: () async {
-                          setState(() => showSpinner = true);
-                          if (_formKey.currentState.validate()) {
-                            try {
-                              final newUser =
-                                  await _auth.createUserWithEmailAndPassword(
-                                      email: email, password: password);
-
-                              if (newUser != null) {
-                                Navigator.pop(
-                                    context, 'User created Successfully!');
-                              }
-                            } catch (e) {
-                              Scaffold.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text('Unable to create user'),
-                                ),
-                              );
-                            }
-                          }
-
-                          setState(() => showSpinner = false);
-                        },
+                        onPressed: registerAction,
                       ),
                       SizedBox(width: 15.0),
                       FillButtonWidget(
@@ -145,5 +122,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+  }
+
+  void registerAction() async {
+    setState(() => showSpinner = true);
+    if (_formKey.currentState.validate()) {
+      try {
+        final newUser = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        if (newUser != null) {
+          Navigator.pop(context, 'User created Successfully!');
+        }
+      } catch (e) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Unable to create user'),
+          ),
+        );
+      }
+    }
+
+    setState(() => showSpinner = false);
   }
 }

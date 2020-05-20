@@ -16,8 +16,8 @@ class OutlineButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      minWidth: 150.0,
-      height: 55.0,
+      minWidth: 120.0,
+      height: 45.0,
       child: OutlineButton(
         onPressed: onPressed,
         borderSide: BorderSide(

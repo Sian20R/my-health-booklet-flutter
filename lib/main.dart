@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'screens/login_screen.dart';
+import 'screens/registration_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteConstant.login,
       routes: {
         RouteConstant.login: (context) => LoginScreen(),
+        RouteConstant.register: (context) => RegistrationScreen(),
       },
     );
   }

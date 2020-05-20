@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "203412794149",
+    "firebase_url": "https://my-health-booklet.firebaseio.com",
+    "project_id": "my-health-booklet",
+    "storage_bucket": "my-health-booklet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203412794149:android:a1e5ca5b353c9edab548cc",
+        "android_client_info": {
+          "package_name": "vernseawkerboon.myhealthbooklet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203412794149-hhjdd7c30vn7rkt6mvd9f0darm0cgvps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt7vEXm8DgQwdQ41uHb5XAAxAG9tBbqI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203412794149-hhjdd7c30vn7rkt6mvd9f0darm0cgvps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

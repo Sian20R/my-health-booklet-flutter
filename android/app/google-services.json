@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "203412794149-2i3m30lpis9stp4g6vul0csjklrtjtn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vernseawkerboon.myhealthbooklet",
+            "certificate_hash": "65575a10e49a79c037723a2b37051e1113c95c77"
+          }
+        },
+        {
           "client_id": "203412794149-hhjdd7c30vn7rkt6mvd9f0darm0cgvps.apps.googleusercontent.com",
           "client_type": 3
         }

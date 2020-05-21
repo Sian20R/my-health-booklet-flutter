@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../constants.dart';
 import '../screens/registration_screen.dart';
 import '../styles/style.dart';
@@ -16,28 +17,35 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleAuth = GoogleSignIn();
+
   bool showSpinner = false;
   String email;
   String password;
+  List<GestureDetector> socialMediaLogins = [];
 
-  List<GestureDetector> socialMediaLogins = [
-    GestureDetector(
-      onTap: () {},
-      child: Image.asset('images/google_logo.png'),
-    ),
-    GestureDetector(
-      onTap: () {},
-      child: Image.asset('images/facebook_logo.png'),
-    ),
-    GestureDetector(
-      onTap: () {},
-      child: Image.asset('images/windows_logo.png'),
-    ),
-    GestureDetector(
-      onTap: () {},
-      child: Image.asset('images/apple_logo.png'),
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    socialMediaLogins = [
+      GestureDetector(
+        onTap: () => loginWithGoogle(),
+        child: Image.asset('images/google_logo.png'),
+      ),
+      GestureDetector(
+        onTap: () {},
+        child: Image.asset('images/facebook_logo.png'),
+      ),
+      GestureDetector(
+        onTap: () {},
+        child: Image.asset('images/windows_logo.png'),
+      ),
+      GestureDetector(
+        onTap: () {},
+        child: Image.asset('images/apple_logo.png'),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         filledColour: Colors.green,
                         buttonText: 'Login',
                         filledButtonStyle: kLoginButtonTextStyle,
-                        onPressed: loginAction,
+                        onPressed: loginWithEmailAndPassword,
                       ),
                       SizedBox(width: 15.0),
                       FillButtonWidget(
@@ -136,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // Methods
   _navigateAndDisplaySelection(BuildContext context) async {
     // Navigator.push returns a Future that completes after calling
     // Navigator.pop on the Selection Screen.
@@ -159,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
     FocusScope.of(_scaffoldKey.currentContext).unfocus();
   }
 
-  void loginAction() async {
+  void loginWithEmailAndPassword() async {
     setState(() => showSpinner = true);
     if (_formKey.currentState.validate()) {
       try {
@@ -180,6 +189,43 @@ class _LoginScreenState extends State<LoginScreen> {
           );
       }
     }
+    setState(() => showSpinner = false);
+  }
+
+  void loginWithGoogle() async {
+    setState(() => showSpinner = true);
+
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleAuth.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final AuthResult authResult =
+          await _auth.signInWithCredential(credential);
+      final FirebaseUser user = authResult.user;
+
+      if (user != null) {
+        Navigator.pushNamed(context, RouteConstant.home);
+      }
+    } catch (e) {
+      _scaffoldKey.currentState
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text('Error logging in'),
+            backgroundColor: Colors.red,
+          ),
+        );
+
+      print(e);
+    }
+
     setState(() => showSpinner = false);
   }
 }

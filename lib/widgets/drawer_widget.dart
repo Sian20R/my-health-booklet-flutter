@@ -60,6 +60,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage("images/user.png"),
+              radius: 30.0,
               backgroundColor: Colors.white,
             ),
             decoration: BoxDecoration(
@@ -90,7 +91,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               style: TextStyle(color: Colors.black),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, RouteConstant.profile);
             },
           ),
           ListTile(

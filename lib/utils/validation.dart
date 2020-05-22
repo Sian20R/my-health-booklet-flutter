@@ -9,3 +9,8 @@ final passwordValidator = MultiValidator([
   RequiredValidator(errorText: 'Password is required'),
   MinLengthValidator(6, errorText: 'password must be at least 6 digits long'),
 ]);
+
+final nameValidator = RequiredValidator(errorText: 'Name is required');
+
+final dateOfBirthValidator =
+    RequiredValidator(errorText: 'Date of Birth is required');

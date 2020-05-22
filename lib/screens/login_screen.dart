@@ -7,6 +7,7 @@ import '../screens/registration_screen.dart';
 import '../styles/style.dart';
 import '../utils/validation.dart';
 import '../widgets/filled_button_widget.dart';
+import '../widgets/text_form_field_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -78,32 +79,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  TextFormField(
+                  TextFormFieldWidget(
                     onChanged: (value) => email = value,
                     validator: emailValidator,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(color: Colors.black),
-                    decoration: kTextFieldInputDecoration.copyWith(
-                      hintText: 'Email',
-                      prefixIcon: Icon(
-                        Icons.mail,
-                        color: Colors.black54,
-                      ),
-                    ),
+                    keyBoardType: TextInputType.emailAddress,
+                    hintText: 'Email',
+                    icon: Icons.mail,
                   ),
                   SizedBox(height: 10.0),
-                  TextFormField(
+                  TextFormFieldWidget(
                     onChanged: (value) => password = value,
                     validator: passwordValidator,
-                    style: TextStyle(color: Colors.black),
-                    obscureText: true,
-                    decoration: kTextFieldInputDecoration.copyWith(
-                      hintText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: Colors.black54,
-                      ),
-                    ),
+                    isPassword: true,
+                    hintText: 'Password',
+                    icon: Icons.lock,
                   ),
                   SizedBox(height: 15.0),
                   Row(

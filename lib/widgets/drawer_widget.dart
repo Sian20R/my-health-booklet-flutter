@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import '../constants.dart';
 
 final _fireBaseAuth = FirebaseAuth.instance;
 final GoogleSignIn _googleAuth = GoogleSignIn();
+final _facebookAuth = FacebookLogin();
 FirebaseUser loggedInUser;
 
 class DrawerWidget extends StatefulWidget {
@@ -158,5 +160,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     await _fireBaseAuth.signOut();
     // Sign out with google
     await _googleAuth.signOut();
+    // Sign out with facebook
+    await _facebookAuth.logOut();
   }
 }

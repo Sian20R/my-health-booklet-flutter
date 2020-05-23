@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import '../constants.dart';
 import '../screens/registration_screen.dart';
 import '../styles/style.dart';
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleAuth = GoogleSignIn();
+  final _facebookLogin = FacebookLogin();
 
   bool showSpinner = false;
   String email;
@@ -34,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Image.asset('images/google_logo.png'),
       ),
       GestureDetector(
-        onTap: () {},
+        onTap: () => loginWithFacebook(),
         child: Image.asset('images/facebook_logo.png'),
       ),
       GestureDetector(
@@ -211,8 +213,46 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.red,
           ),
         );
+    }
+    setState(() => showSpinner = false);
+  }
 
-      print(e);
+  void loginWithFacebook() async {
+    setState(() => showSpinner = true);
+
+    try {
+      final facebookLoginResult = await _facebookLogin.logIn(['email']);
+
+      switch (facebookLoginResult.status) {
+        case FacebookLoginStatus.error:
+          print("Error");
+          break;
+
+        case FacebookLoginStatus.cancelledByUser:
+          print("CancelledByUser");
+          break;
+
+        case FacebookLoginStatus.loggedIn:
+          AuthCredential authCredential = FacebookAuthProvider.getCredential(
+              accessToken: facebookLoginResult.accessToken.token);
+
+          /// calling the auth mehtod and getting the logged user
+          var authResult = await _auth.signInWithCredential(authCredential);
+          final FirebaseUser user = authResult.user;
+
+          if (user != null) {
+            Navigator.pushNamed(context, RouteConstant.home);
+          }
+      }
+    } catch (e) {
+      _scaffoldKey.currentState
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text('Error logging in'),
+            backgroundColor: Colors.red,
+          ),
+        );
     }
 
     setState(() => showSpinner = false);

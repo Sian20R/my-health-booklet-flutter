@@ -53,19 +53,19 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProfileState>(
-      builder: (context, profileState, child) => Scaffold(
-        appBar: AppBarWidget(title: 'Profile'),
-        drawer: DrawerWidget(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  GestureDetector(
+    return Scaffold(
+      appBar: AppBarWidget(title: 'Profile'),
+      drawer: DrawerWidget(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Consumer<ProfileState>(
+                  builder: (context, profileState, child) => GestureDetector(
                     onTap: () => Navigator.pushNamed(
                         context, RouteConstant.uploadProfilePicture),
                     child: CircleAvatar(
@@ -85,75 +85,75 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  TextFormFieldWidget(
-                    onChanged: (value) => name = value,
-                    validator: nameValidator,
-                    keyBoardType: TextInputType.emailAddress,
-                    hintText: 'Name',
-                    icon: Icons.account_box,
-                  ),
-                  SizedBox(height: 10.0),
-                  TextFormFieldWidget(
-                    onChanged: (value) => name = value,
-                    validator: dateOfBirthValidator,
-                    controller: dateOfBirthController,
-                    hintText: 'Date of Birth',
-                    icon: Icons.date_range,
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      DatePicker.showDatePicker(
-                        context,
-                        showTitleActions: true,
-                        minTime: DateTime(1930, 1, 1),
-                        maxTime: DateTime.now(),
-                        currentTime: DateTime.now(),
-                        locale: LocaleType.en,
-                        onConfirm: (date) async {
-                          dateOfBirthController.text =
-                              formatToDate(date.toString());
-                        },
-                      );
-                    },
-                  ),
-                  GenderSelection(
-                    maleText: "Male", //default Male
-                    femaleText: "Female", //default Female
-                    selectedGender: Gender.Male,
-                    selectedGenderIconBackgroundColor: Colors.green,
-                    onChanged: (Gender value) =>
-                        gender = (value == Gender.Male) ? 'male' : 'female',
-                    equallyAligned: true,
-                    animationDuration: Duration(milliseconds: 400),
-                    isSelectedGenderIconCircular: true,
-                    size: 100, //default : 120
-                  ),
-                  MultiSelectFieldWidget(
-                    titleText: 'Illness',
-                    dataSource: illness,
-                    hintText: "Please select your existing conditions",
-                  ),
-                  SizedBox(height: 25.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FillButtonWidget(
-                        filledColour: Colors.green,
-                        buttonText: 'Register',
-                        filledButtonStyle: kLoginButtonTextStyle,
-                        onPressed: () {},
-                      ),
-                      SizedBox(width: 15.0),
-                      FillButtonWidget(
-                        filledColour: Colors.red,
-                        buttonText: 'Cancel',
-                        filledButtonStyle: kRegisterButtonTextStyle,
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: 10.0),
+                TextFormFieldWidget(
+                  onChanged: (value) => name = value,
+                  validator: nameValidator,
+                  keyBoardType: TextInputType.emailAddress,
+                  hintText: 'Name',
+                  icon: Icons.account_box,
+                ),
+                SizedBox(height: 10.0),
+                TextFormFieldWidget(
+                  onChanged: (value) => name = value,
+                  validator: dateOfBirthValidator,
+                  controller: dateOfBirthController,
+                  hintText: 'Date of Birth',
+                  icon: Icons.date_range,
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                    DatePicker.showDatePicker(
+                      context,
+                      showTitleActions: true,
+                      minTime: DateTime(1930, 1, 1),
+                      maxTime: DateTime.now(),
+                      currentTime: DateTime.now(),
+                      locale: LocaleType.en,
+                      onConfirm: (date) async {
+                        dateOfBirthController.text =
+                            formatToDate(date.toString());
+                      },
+                    );
+                  },
+                ),
+                GenderSelection(
+                  maleText: "Male", //default Male
+                  femaleText: "Female", //default Female
+                  selectedGender: Gender.Male,
+                  selectedGenderIconBackgroundColor: Colors.green,
+                  onChanged: (Gender value) =>
+                      gender = (value == Gender.Male) ? 'male' : 'female',
+                  equallyAligned: true,
+                  animationDuration: Duration(milliseconds: 400),
+                  isSelectedGenderIconCircular: true,
+                  size: 100, //default : 120
+                ),
+                MultiSelectFieldWidget(
+                  titleText: 'Illness',
+                  dataSource: illness,
+                  hintText: "Please select your existing conditions",
+                ),
+                SizedBox(height: 25.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FillButtonWidget(
+                      filledColour: Colors.green,
+                      buttonText: 'Register',
+                      filledButtonStyle: kLoginButtonTextStyle,
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 15.0),
+                    FillButtonWidget(
+                      filledColour: Colors.red,
+                      buttonText: 'Cancel',
+                      filledButtonStyle: kRegisterButtonTextStyle,
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),

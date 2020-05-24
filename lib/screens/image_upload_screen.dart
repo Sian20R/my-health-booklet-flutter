@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import '../states/profile_state.dart';
 
 class ImageUploadScreen extends StatefulWidget {
   @override
@@ -76,7 +78,6 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         children: <Widget>[
           if (_imageFile != null) ...[
             Image.file(_imageFile),
-
             Row(
               children: <Widget>[
                 FlatButton(
@@ -87,10 +88,16 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   child: Icon(Icons.refresh),
                   onPressed: _clear,
                 ),
+                FlatButton(
+                  child: Icon(Icons.add_photo_alternate),
+                  onPressed: () {
+                    Provider.of<ProfileState>(context, listen: false)
+                        .setProfilePicture(_imageFile);
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
-
-            //Uploader(file: _imageFile)
           ]
         ],
       ),

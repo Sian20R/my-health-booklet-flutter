@@ -5,7 +5,7 @@ Future<String> uploadProfilePicture(File file, String email) async {
   String name = email.substring(0, email.indexOf('@'));
   String filePath = 'profile_pictures/${name}_${DateTime.now()}.png';
   final StorageReference _storageReference =
-      FirebaseStorage(storageBucket: 'gs://my-health-booklet.appspot.com')
+      FirebaseStorage(storageBucket: 'gs://health-booklet.appspot.com')
           .ref()
           .child(filePath);
 

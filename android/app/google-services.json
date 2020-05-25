@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "203412794149",
-    "firebase_url": "https://my-health-booklet.firebaseio.com",
-    "project_id": "my-health-booklet",
-    "storage_bucket": "my-health-booklet.appspot.com"
+    "project_number": "852786651911",
+    "firebase_url": "https://health-booklet.firebaseio.com",
+    "project_id": "health-booklet",
+    "storage_bucket": "health-booklet.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:203412794149:android:a1e5ca5b353c9edab548cc",
+        "mobilesdk_app_id": "1:852786651911:android:6fbd79788c88c882bb1ba2",
         "android_client_info": {
           "package_name": "vernseawkerboon.myhealthbooklet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "203412794149-2i3m30lpis9stp4g6vul0csjklrtjtn3.apps.googleusercontent.com",
+          "client_id": "852786651911-4mk7c185phtjrni35vr4gt3vq74jp2ju.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "vernseawkerboon.myhealthbooklet",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "203412794149-hhjdd7c30vn7rkt6mvd9f0darm0cgvps.apps.googleusercontent.com",
+          "client_id": "852786651911-f81ctj0eji59rv0tes2gmdhqi3dcbnga.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAt7vEXm8DgQwdQ41uHb5XAAxAG9tBbqI8"
+          "current_key": "AIzaSyBW3e04_MYErTwnN1aeerho7LWgvyAUOsg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "203412794149-hhjdd7c30vn7rkt6mvd9f0darm0cgvps.apps.googleusercontent.com",
+              "client_id": "852786651911-f81ctj0eji59rv0tes2gmdhqi3dcbnga.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

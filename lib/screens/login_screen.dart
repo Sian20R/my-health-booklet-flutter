@@ -213,6 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.red,
           ),
         );
+      print('Error: $e');
     }
     setState(() => showSpinner = false);
   }

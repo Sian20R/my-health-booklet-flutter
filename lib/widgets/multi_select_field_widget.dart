@@ -5,45 +5,20 @@ class MultiSelectFieldWidget extends StatelessWidget {
   final String titleText;
   final List dataSource;
   final String hintText;
+  final Function onSaved;
 
   MultiSelectFieldWidget(
-      {@required this.titleText, @required this.dataSource, this.hintText});
+      {@required this.titleText,
+      @required this.dataSource,
+      this.hintText,
+      this.onSaved});
 
   @override
   Widget build(BuildContext context) {
     return MultiSelectFormField(
       autovalidate: false,
       titleText: titleText,
-      dataSource: [
-        {
-          "display": "Running",
-          "value": "Running",
-        },
-        {
-          "display": "Climbing",
-          "value": "Climbing",
-        },
-        {
-          "display": "Walking",
-          "value": "Walking",
-        },
-        {
-          "display": "Swimming",
-          "value": "Swimming",
-        },
-        {
-          "display": "Soccer Practice",
-          "value": "Soccer Practice",
-        },
-        {
-          "display": "Baseball Practice",
-          "value": "Baseball Practice",
-        },
-        {
-          "display": "Football Practice",
-          "value": "Football Practice",
-        },
-      ],
+      dataSource: dataSource,
       textField: 'display',
       valueField: 'value',
       okButtonLabel: 'OK',
@@ -51,6 +26,7 @@ class MultiSelectFieldWidget extends StatelessWidget {
       // required: true,
       hintText: hintText,
       //initialValue: dataSource,
+      onSaved: onSaved,
     );
   }
 }

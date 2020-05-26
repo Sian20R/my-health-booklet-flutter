@@ -15,6 +15,11 @@ class ProfileState with ChangeNotifier {
     notifyListeners();
   }
 
+  void setEmail(String email) {
+    _profile.email = email;
+    notifyListeners();
+  }
+
   Profile getProfile() {
     return _profile;
   }

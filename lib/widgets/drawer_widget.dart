@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import '../constants.dart';
+import '../states/profile_state.dart';
+import '../models/profile.dart';
 
 final _fireBaseAuth = FirebaseAuth.instance;
 final GoogleSignIn _googleAuth = GoogleSignIn();
 final _facebookAuth = FacebookLogin();
+final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
 class DrawerWidget extends StatefulWidget {
@@ -17,6 +22,8 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final _auth = FirebaseAuth.instance;
   String email = '';
+  String profilePicturePath;
+  String name = '';
 
   @override
   void initState() {
@@ -31,6 +38,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         loggedInUser = user;
         setState(() {
           email = loggedInUser.email;
+          _fireStore
+              .collection("users")
+              .where('email', isEqualTo: email)
+              .snapshots()
+              .listen((value) {
+            value.documents.forEach((doc) {
+              profilePicturePath = doc['profilePicturePath'];
+              name = doc['name'];
+              Profile profile = Profile(
+                email: email,
+                name: name,
+                dateOfBirth: doc['dateOfBirth'],
+                diseases: doc['diseases'],
+                gender: doc['gender'],
+                profilePicturePath: profilePicturePath,
+              );
+
+              Provider.of<ProfileState>(context, listen: false)
+                  .setProfile(profile);
+            });
+          });
         });
       }
     } catch (e) {
@@ -54,14 +82,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               style: TextStyle(color: Colors.black54),
             ),
             accountName: Text(
-              'Vern Seaw',
+              name,
               style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.w800,
                   fontSize: 20.0),
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage("images/user.png"),
+              backgroundImage: (profilePicturePath == null)
+                  ? AssetImage("images/user.png")
+                  : NetworkImage(profilePicturePath),
               radius: 30.0,
               backgroundColor: Colors.white,
             ),

@@ -5,7 +5,9 @@ class TextFormFieldWidget extends StatelessWidget {
   final Function onChanged;
   final FormFieldValidator validator;
   final TextInputType keyBoardType;
+  final bool enable;
   final Function onTap;
+  final String initialValue;
   final bool isPassword;
   final String hintText;
   final IconData icon;
@@ -15,7 +17,9 @@ class TextFormFieldWidget extends StatelessWidget {
       {this.onChanged,
       this.validator,
       this.keyBoardType,
+      this.enable,
       this.onTap,
+      this.initialValue,
       this.hintText,
       this.icon,
       this.controller,
@@ -29,7 +33,9 @@ class TextFormFieldWidget extends StatelessWidget {
       onTap: (onTap != null) ? onTap : null,
       controller: (controller != null) ? controller : null,
       keyboardType: (keyBoardType != null) ? keyBoardType : null,
+      initialValue: (initialValue != null) ? initialValue : null,
       style: TextStyle(color: Colors.black),
+      enabled: (enable != null) ? false : true,
       obscureText: (isPassword != null) ? isPassword : false,
       decoration: kTextFieldInputDecoration.copyWith(
         hintText: hintText,

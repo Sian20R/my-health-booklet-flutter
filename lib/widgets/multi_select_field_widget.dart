@@ -6,12 +6,14 @@ class MultiSelectFieldWidget extends StatelessWidget {
   final List dataSource;
   final String hintText;
   final Function onSaved;
+  final List initialValue;
 
   MultiSelectFieldWidget(
       {@required this.titleText,
       @required this.dataSource,
       this.hintText,
-      this.onSaved});
+      this.onSaved,
+      this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class MultiSelectFieldWidget extends StatelessWidget {
       cancelButtonLabel: 'CANCEL',
       // required: true,
       hintText: hintText,
-      //initialValue: dataSource,
       onSaved: onSaved,
+      initialValue: initialValue,
     );
   }
 }

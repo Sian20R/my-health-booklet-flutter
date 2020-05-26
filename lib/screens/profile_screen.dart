@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:gender_selection/gender_selection.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../styles/style.dart';
+import '../models/profile.dart';
 import '../utils/validation.dart';
 import '../utils/format_date_time.dart';
 import '../utils/firebase_storage_upload.dart';
@@ -30,7 +31,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String name;
   String gender = 'male';
   String dateOfBirth;
-  List disease;
+  List diseases;
+  String email;
+  String profilePicturePath;
+
+  @override
+  void initState() {
+    super.initState();
+    Profile profile =
+        Provider.of<ProfileState>(context, listen: false).getProfile();
+
+    name = profile.name;
+    email = profile.email;
+    gender = (profile.gender == 'male') ? 'male' : 'female';
+    dateOfBirth = profile.dateOfBirth;
+    dateOfBirthController.text = dateOfBirth;
+    diseases = profile.diseases;
+    profilePicturePath = profile.profilePicturePath;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ClipRRect(
                           child: (profileState.getProfile().profilePicture ==
                                   null)
-                              ? Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.green,
-                                )
+                              ? initProfilePicture()
                               : Image(
                                   image: FileImage(
                                       profileState.getProfile().profilePicture),
@@ -73,10 +88,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 10.0),
                   TextFormFieldWidget(
                     onChanged: (value) => name = value,
+                    initialValue: name,
                     validator: nameValidator,
-                    keyBoardType: TextInputType.emailAddress,
                     hintText: 'Name',
                     icon: Icons.account_box,
+                  ),
+                  SizedBox(height: 10.0),
+                  TextFormFieldWidget(
+                    initialValue: email,
+                    enable: false,
+                    hintText: 'Email',
+                    icon: Icons.email,
                   ),
                   SizedBox(height: 10.0),
                   TextFormFieldWidget(
@@ -116,10 +138,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   MultiSelectFieldWidget(
                     titleText: 'Diseases',
-                    dataSource: diseases,
+                    dataSource: diseaseSelections,
                     hintText: "Please select your existing conditions",
                     onSaved: (value) =>
-                        {if (value != null) print(value), disease = value},
+                        {if (value != null) print(value), diseases = value},
+                    initialValue: diseases,
                   ),
                   SizedBox(height: 25.0),
                   Row(
@@ -149,6 +172,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  dynamic initProfilePicture() {
+    if (profilePicturePath != null) {
+      return Image(
+        image: NetworkImage(profilePicturePath),
+      );
+    } else {
+      return Icon(
+        Icons.add_a_photo,
+        color: Colors.green,
+      );
+    }
+  }
+
   void addUpdateProfile() async {
     setState(() => showSpinner = true);
     if (_formKey.currentState.validate()) {
@@ -157,16 +193,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Provider.of<ProfileState>(context, listen: false)
                 .getProfile()
                 .profilePicture,
-            'seawkerboon@gmail.com');
+            email);
 
-        print('profilePicturePath: $profilePicturePath');
-
-        await _fireStore.collection('public_users').add(
+        await _fireStore.collection('users').add(
           {
             'name': name,
+            'email': email,
             'dateOfBirth': dateOfBirth,
             'gender': gender,
-            'diseases': disease,
+            'diseases': diseases,
             'profilePicturePath': profilePicturePath,
           },
         );

@@ -7,7 +7,7 @@ class RouteConstant {
   static String uploadProfilePicture = '/uploadProfilePic';
 }
 
-final List diseases = [
+final List diseaseSelections = [
   {
     "display": "Acute Bronchitis",
     "value": "acute bronchitis",

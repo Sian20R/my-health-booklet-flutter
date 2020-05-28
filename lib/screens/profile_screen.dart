@@ -9,7 +9,7 @@ import '../styles/style.dart';
 import '../models/profile.dart';
 import '../utils/validation.dart';
 import '../utils/format_date_time.dart';
-import '../utils/firebase_storage_upload.dart';
+import '../utils/firebase_storage.dart';
 import '../states/profile_state.dart';
 import '../widgets/drawer_widget.dart';
 import '../widgets/app_bar_widget.dart';
@@ -28,6 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _fireStore = Firestore.instance;
   final dateOfBirthController = TextEditingController();
   bool showSpinner = false;
+  bool isUpdate = false;
+
   String name;
   String gender = 'male';
   String dateOfBirth;
@@ -41,13 +43,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Profile profile =
         Provider.of<ProfileState>(context, listen: false).getProfile();
 
-    name = profile.name;
-    email = profile.email;
-    gender = (profile.gender == 'male') ? 'male' : 'female';
-    dateOfBirth = profile.dateOfBirth;
-    dateOfBirthController.text = dateOfBirth;
-    diseases = profile.diseases;
-    profilePicturePath = profile.profilePicturePath;
+    if (profile != null) {
+      name = profile.name;
+      email = profile.email;
+      gender = (profile.gender == 'male') ? 'male' : 'female';
+      dateOfBirth = profile.dateOfBirth;
+      dateOfBirthController.text = dateOfBirth;
+      diseases = profile.diseases;
+      profilePicturePath = profile.profilePicturePath;
+      isUpdate = true;
+    }
   }
 
   @override
@@ -152,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         filledColour: Colors.green,
                         buttonText: 'Register',
                         filledButtonStyle: kLoginButtonTextStyle,
-                        onPressed: addUpdateProfile,
+                        onPressed: (isUpdate) ? updateProfile : addProfile,
                       ),
                       SizedBox(width: 15.0),
                       FillButtonWidget(
@@ -185,7 +190,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void addUpdateProfile() async {
+  void updateProfile() async {
+    setState(() => showSpinner = true);
+    if (_formKey.currentState.validate()) {
+      try {
+        String profilePicturePath;
+        Profile profile =
+            Provider.of<ProfileState>(context, listen: false).getProfile();
+
+        if (profile.profilePicture != null) {
+          deleteProfilePic(profile.profilePicturePath);
+          profilePicturePath =
+              await uploadProfilePicture(profile.profilePicture, email);
+        } else {
+          profilePicturePath = profile.profilePicturePath;
+        }
+
+        _fireStore
+            .collection("users")
+            .where('email', isEqualTo: email)
+            .snapshots()
+            .listen((value) {
+          value.documents.forEach(
+            (doc) {
+              doc.reference.updateData({
+                'name': name,
+                'email': email,
+                'dateOfBirth': dateOfBirth,
+                'gender': gender,
+                'diseases': diseases,
+                'profilePicturePath': profilePicturePath,
+              });
+
+              showSnackBar(Colors.green, 'Profile updated.');
+            },
+          );
+        });
+      } catch (e) {
+        showSnackBar(Colors.red, 'Unable to update user profile');
+      }
+    }
+    setState(() => showSpinner = false);
+  }
+
+  void addProfile() async {
     setState(() => showSpinner = true);
     if (_formKey.currentState.validate()) {
       try {
@@ -206,23 +254,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         );
 
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text('Profile added/updated'),
-          ),
-        );
+        showSnackBar(Colors.green, 'Profile added');
       } catch (e) {
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text('Unable to add/update user profile'),
-          ),
-        );
-
-        print(e);
+        showSnackBar(Colors.red, 'Unable to add user profile');
       }
     }
     setState(() => showSpinner = false);
+  }
+
+  void showSnackBar(Color colour, String message) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        backgroundColor: colour,
+        content: Text(message),
+      ),
+    );
   }
 }

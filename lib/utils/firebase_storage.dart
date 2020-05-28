@@ -19,3 +19,23 @@ Future<String> uploadProfilePicture(File file, String email) async {
   }
   return 'Upload Profile Picture Failed';
 }
+
+bool deleteProfilePic(String url) {
+  bool isError = false;
+
+  FirebaseStorage.instance
+      .getReferenceFromUrl(url)
+      .then(
+        (reference) => {
+          reference.delete(),
+        },
+      )
+      .catchError(
+    (e) {
+      isError = true;
+      print(e);
+    },
+  );
+
+  return isError;
+}

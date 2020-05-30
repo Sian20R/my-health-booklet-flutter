@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:gender_selection/gender_selection.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../constants.dart';

@@ -26,6 +26,7 @@ dependencies:
   image_cropper: ^1.2.2
   image_picker: ^0.6.6+4
   provider: ^4.1.2
+  flappy_search_bar: ^1.7.2
 
 dev_dependencies:
   flutter_test:

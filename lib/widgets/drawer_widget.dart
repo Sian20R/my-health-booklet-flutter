@@ -136,7 +136,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               style: TextStyle(color: Colors.black),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, RouteConstant.disease);
             },
           ),
           ListTile(

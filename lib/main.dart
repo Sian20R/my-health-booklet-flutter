@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'states/profile_state.dart';
+import 'states/disease_state.dart';
 import 'constants.dart';
 import 'screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/image_upload_screen.dart';
+import 'screens/disease_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,9 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => ProfileState(),
-        ),
+        ChangeNotifierProvider(create: (context) => ProfileState()),
+        ChangeNotifierProvider(create: (context) => DiseaseState())
       ],
       child: MaterialApp(
         title: 'My Health Booklet',
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           RouteConstant.home: (context) => HomeScreen(),
           RouteConstant.profile: (context) => ProfileScreen(),
           RouteConstant.uploadProfilePicture: (context) => ImageUploadScreen(),
+          RouteConstant.disease: (context) => DiseaseScreen(),
         },
       ),
     );

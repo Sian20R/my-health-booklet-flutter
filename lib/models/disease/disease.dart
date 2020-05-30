@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'symptom.dart';
 import 'cause.dart';
 import 'diagnosis.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'symptom.dart';
 import 'cause.dart';
 import 'diagnosis.dart';
@@ -12,4 +13,15 @@ class Disease {
   Cause causes;
   Diagnosis diagnosis;
   Treatment treatments;
+
+  Disease({
+    @required this.name,
+    this.image,
+    this.synonyms,
+    @required this.description,
+    this.symptoms,
+    this.causes,
+    this.diagnosis,
+    this.treatments,
+  });
 }

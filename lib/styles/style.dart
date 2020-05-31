@@ -32,3 +32,20 @@ const kTextFieldInputDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+const kCardContainerBoxDecoration = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(10),
+      topRight: Radius.circular(10),
+      bottomLeft: Radius.circular(10),
+      bottomRight: Radius.circular(10)),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.white24,
+      spreadRadius: 5,
+      blurRadius: 7,
+      offset: Offset(0, 3),
+    ),
+  ],
+);

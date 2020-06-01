@@ -1,4 +1,5 @@
 import 'package:flappy_search_bar/scaled_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,7 @@ class _DiseaseScreenState extends State<DiseaseScreen> {
   }
 
   Future<List<Disease>> onSearchDisease(String text) async {
-    await Future.delayed(Duration(seconds: text.length == 4 ? 10 : 1));
+    await Future.delayed(Duration(seconds: text.length == 4 ? 5 : 1));
     List<Disease> tempDisease;
     // Filter using name
     tempDisease = diseases
@@ -66,6 +67,7 @@ class _DiseaseScreenState extends State<DiseaseScreen> {
         }
       });
     }
+
     return tempDisease;
   }
 
@@ -83,29 +85,51 @@ class _DiseaseScreenState extends State<DiseaseScreen> {
           searchBarController: _searchBarController,
           hintText: 'Please enter the diseases',
           crossAxisCount: 1,
-          indexedScaledTileBuilder: (int index) =>
-              ScaledTile.count(1, index.isEven ? 2 : 1),
           onItemFound: (Disease disease, int index) {
             return Container(
-              decoration: kCardContainerBoxDecoration.copyWith(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-              ]),
-              margin: EdgeInsets.only(top: 10, bottom: 10),
-              height: double.infinity,
-              width: double.infinity,
-              child: ListTile(
-                leading: Icon(Icons.album),
-                title: Text(disease.name),
-                subtitle: Text(disease.description),
-              ),
-            );
+                width: 10.0,
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                decoration: kCardContainerBoxDecoration.copyWith(boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                ]),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      (disease.image != '')
+                          ? Image.network(disease.image)
+                          : Icon(
+                              Icons.photo_album,
+                              size: 200.0,
+                            ),
+                      Text(
+                        disease.name,
+                        style: TextStyle(
+                            fontSize: 15.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(shortenDescription(disease.description)),
+                      SizedBox(height: 10.0),
+                    ],
+                  ),
+                ));
           },
           onSearch: onSearchDisease,
         ),
       ),
     );
+  }
+}
+
+String shortenDescription(String description) {
+  if (description.length > 800) {
+    String newDescription = description.substring(0, 800);
+    return newDescription + ' Read More...';
+  } else {
+    return description;
   }
 }
 

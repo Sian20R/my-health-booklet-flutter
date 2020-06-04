@@ -5,6 +5,7 @@ class RouteConstant {
   static String chat = '/chat';
   static String profile = '/profile';
   static String uploadProfilePicture = '/uploadProfilePic';
+  static String diseases = '/diseases';
   static String disease = '/disease';
 }
 

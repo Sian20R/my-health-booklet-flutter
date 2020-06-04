@@ -5,8 +5,9 @@ import 'diagnosis.dart';
 import 'treatment.dart';
 
 class Disease {
+  String id;
   String name;
-  String image;
+  String image = null;
   List<String> synonyms;
   String description;
   Symptom symptoms;
@@ -15,6 +16,7 @@ class Disease {
   Treatment treatments;
 
   Disease({
+    @required this.id,
     @required this.name,
     this.image,
     this.synonyms,

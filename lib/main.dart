@@ -8,6 +8,7 @@ import 'screens/registration_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/image_upload_screen.dart';
+import 'screens/diseases_screen.dart';
 import 'screens/disease_screen.dart';
 
 void main() => runApp(MyApp());
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           RouteConstant.home: (context) => HomeScreen(),
           RouteConstant.profile: (context) => ProfileScreen(),
           RouteConstant.uploadProfilePicture: (context) => ImageUploadScreen(),
+          RouteConstant.diseases: (context) => DiseasesScreen(),
           RouteConstant.disease: (context) => DiseaseScreen(),
         },
       ),

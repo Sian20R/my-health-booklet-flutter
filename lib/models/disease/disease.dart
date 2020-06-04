@@ -7,7 +7,7 @@ import 'treatment.dart';
 class Disease {
   String id;
   String name;
-  String image = null;
+  String image;
   List<String> synonyms;
   String description;
   Symptom symptoms;

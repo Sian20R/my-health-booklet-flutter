@@ -5,33 +5,18 @@ import '../styles/style.dart';
 import '../models/disease/disease.dart';
 import '../utils/firebaseToModel/disease_firebase_model.dart';
 
-class DiseaseScreen extends StatefulWidget {
-  final String diseaseId;
-
-  // receive data from the FirstScreen as a parameter
-  DiseaseScreen({Key key, @required this.diseaseId}) : super(key: key);
-
-  @override
-  _DiseaseScreenState createState() => _DiseaseScreenState();
-}
-
-class _DiseaseScreenState extends State<DiseaseScreen> {
+class DiseaseScreen extends StatelessWidget {
   final _fireStore = Firestore.instance;
+  String diseaseId;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  DiseaseScreen({@required this.diseaseId});
 
   @override
   Widget build(BuildContext context) {
     Disease disease = Disease();
 
     return StreamBuilder<DocumentSnapshot>(
-      stream: _fireStore
-          .collection('diseases')
-          .document(widget.diseaseId)
-          .snapshots(),
+      stream: _fireStore.collection('diseases').document(diseaseId).snapshots(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (!snapshot.hasData)

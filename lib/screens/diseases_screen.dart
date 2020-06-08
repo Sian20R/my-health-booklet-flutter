@@ -107,10 +107,7 @@ class _DiseasesScreenState extends State<DiseasesScreen> {
                       children: <Widget>[
                         (disease.image != '')
                             ? Image.network(disease.image)
-                            : Icon(
-                                Icons.photo_album,
-                                size: 200.0,
-                              ),
+                            : Image.asset('images/no_image.png'),
                         Text(
                           disease.name,
                           style: TextStyle(

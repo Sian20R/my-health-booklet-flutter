@@ -14,6 +14,13 @@ const kRegisterButtonTextStyle = TextStyle(
   fontSize: 15.0,
 );
 
+const kLabelTitleTextStyle = TextStyle(
+  color: Colors.black54,
+  fontFamily: 'Roboto Black',
+  fontWeight: FontWeight.bold,
+  fontSize: 16.0,
+);
+
 const kTextFieldInputDecoration = InputDecoration(
   hintText: 'Enter a value',
   fillColor: Colors.white,

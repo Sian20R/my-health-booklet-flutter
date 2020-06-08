@@ -11,37 +11,45 @@ Disease convertFirebaseDocToDisease(DocumentSnapshot doc) {
           doc.data['synonyms'].map((synonym) => synonym.toString()))
       : [];
 
-  Symptom symptom = Symptom(
-    name: doc.data['symptoms.name'],
-    symptoms: (doc.data['symptom.symptoms'] != null)
-        ? List<String>.from(
-            doc.data['symptom.symptoms'].map((symptom) => symptom.toString()))
-        : null,
-  );
+  Symptom symptom = (doc.data['symptoms'] != null)
+      ? Symptom(
+          name: doc.data['symptoms']['name'],
+          symptoms: (doc.data['symptoms']['symptom'] != null)
+              ? List<String>.from(doc.data['symptoms']['symptom']
+                  .map((symptom) => symptom.toString()))
+              : null,
+        )
+      : null;
 
-  Cause cause = Cause(
-    name: doc.data['causes.name'],
-    causes: (doc.data['causes.cause'] != null)
-        ? List<String>.from(
-            doc.data['causes.cause'].map((cause) => cause.toString()))
-        : null,
-  );
+  Cause cause = (doc.data['causes'] != null)
+      ? Cause(
+          name: doc.data['causes']['name'],
+          causes: (doc.data['causes']['cause'] != null)
+              ? List<String>.from(
+                  doc.data['causes']['cause'].map((cause) => cause.toString()))
+              : null,
+        )
+      : null;
 
-  Diagnosis diagnosis = Diagnosis(
-    name: doc.data['diagnosis.name'],
-    diagnosis: (doc.data['diagnosis.diagnosis'] != null)
-        ? List<String>.from(doc.data['diagnosis.diagnosis']
-            .map((diagnosis) => diagnosis.toString()))
-        : null,
-  );
+  Diagnosis diagnosis = (doc.data['diagnosis'] != null)
+      ? Diagnosis(
+          name: doc.data['diagnosis']['name'],
+          diagnosis: (doc.data['diagnosis']['diagnosis'] != null)
+              ? List<String>.from(doc.data['diagnosis']['diagnosis']
+                  .map((diagnosis) => diagnosis.toString()))
+              : null,
+        )
+      : null;
 
-  Treatment treatment = Treatment(
-    name: doc.data['treatments.name'],
-    treatments: (doc.data['treatments.treatment'] != null)
-        ? List<String>.from(doc.data['treatments.treatment']
-            .map((treatment) => treatment.toString()))
-        : null,
-  );
+  Treatment treatment = (doc.data['treatments'] != null)
+      ? Treatment(
+          name: doc.data['treatments']['name'],
+          treatments: (doc.data['treatments']['treatment'] != null)
+              ? List<String>.from(doc.data['treatments']['treatment']
+                  .map((treatment) => treatment.toString()))
+              : null,
+        )
+      : null;
 
   Disease disease = Disease(
     id: doc.documentID,
